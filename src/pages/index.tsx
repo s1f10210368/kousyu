@@ -9,7 +9,7 @@ const Home = () => {
 
   const [userInput, setUserInput] = useState<(0 | 1 | 2 | 3)[][]>([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -64,7 +64,49 @@ const Home = () => {
   //board + directions + userInput +
 
   const onClick = (x: number, y: number) => {
-    console.log(x, y);
+    //ボムの配置
+    const emptyCells: [number, number][] = [];
+    for (let i = 0; i < userInput.length; i++) {
+      for (let j = 0; j < userInput[i].length; j++) {
+        if (userInput[i][j] === 0) {
+          emptyCells.push([i, j]);
+        }
+      }
+    }
+
+    //ランダムにボムを配置
+    for (let i = 0; i < bomCount; i++) {
+      const randomIndex = Math.floor(Math.random() * emptyCells.length);
+      const [bombX, bombY] = emptyCells[randomIndex];
+      bombMap[bombX][bombY] = 1;
+      emptyCells.splice(randomIndex, 1);
+    }
+
+    //クリックしたマスがボムの位置である場合はゲーム終了
+    if (bombMap[x][y] === 1) {
+      //爆発アニメーションなどの処理追加
+      console.log('爆発！ゲームオーバー');
+      return;
+    }
+
+    //周辺のマスの調査
+    for (const direction of directions) {
+      const dx = direction[0];
+      const dy = direction[1];
+      const newX = x + dx;
+      const newY = y + dy;
+
+      //座標がボードの範囲内かを確認
+      if (newX >= 0 && newX < userInput.length && newY >= 0 && newY < userInput[newX].length) {
+        //周囲のマスにボムがあるかを調べる
+        if (bombMap[newX][newY] === 1) {
+          //クリックしたマスの値を周囲のボムの数に更新
+          userInput[x][y]++;
+        }
+      }
+    }
+    //数字が表示されたマスをクリック済みの状態に変更
+    userInput[x][y] = 1;
   };
 
   return (
@@ -73,7 +115,12 @@ const Home = () => {
         {userInput.map((row, y) =>
           row.map((color, x) => (
             <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)}>
-              {color !== 0 && <div className={styles.stone} />}
+              {color !== 0 && (
+                <div
+                  className={styles.stone}
+                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                />
+              )}
             </div>
           ))
         )}
