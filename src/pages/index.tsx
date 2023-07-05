@@ -8,7 +8,7 @@ const Home = () => {
   //3 -> 旗
 
   const [userInput, setUserInput] = useState<(0 | 1 | 2 | 3)[][]>([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -118,7 +118,7 @@ const Home = () => {
               {color !== 0 && (
                 <div
                   className={styles.stone}
-                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                  //style={{ background: color === 1 ? '#000' : '#fff' }}
                 />
               )}
             </div>
