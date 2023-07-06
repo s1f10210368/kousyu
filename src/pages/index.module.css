@@ -31,7 +31,6 @@
   background: url('~/assets/images/icons.png') no-repeat;
   border-radius: 50%;
   position: absolute;
-  background-position: -300px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

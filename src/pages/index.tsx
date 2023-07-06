@@ -8,7 +8,7 @@ const Home = () => {
   //3 -> 旗
 
   const [userInput, setUserInput] = useState<(0 | 1 | 2 | 3)[][]>([
-    [1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,7 +18,8 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const bomCount = 10;
+  //const bomCount = 10;
+
   // 0 -> ボムなし
   // 1 -> ボム有
   const [bombMap, setBombMap] = useState([
@@ -34,12 +35,13 @@ const Home = () => {
   ]);
 
   //ゲーム開始
-  //const isPlaying = userInputs.some((row) => row.some((input) => input !==0));
+  const isPlaying = userInput.some((row) => row.some((input) => input !== 0));
   //爆発
   //const isFailure = userInputs.some((row, y) =>
   //  row.some((input, x) => input === 1 && bombMap[y][x] === 1)
   //);
 
+  //boardを計算でusestateとbombmapから作る
   // -1 -> 石
   // 0 -> 画像なしセル
   // 1~8 -> 数字セル
@@ -64,49 +66,42 @@ const Home = () => {
   //board + directions + userInput +
 
   const onClick = (x: number, y: number) => {
-    //ボムの配置
-    const emptyCells: [number, number][] = [];
-    for (let i = 0; i < userInput.length; i++) {
-      for (let j = 0; j < userInput[i].length; j++) {
-        if (userInput[i][j] === 0) {
-          emptyCells.push([i, j]);
+    console.log(x, y);
+
+    //ユーザのクリックに応じてuserInputの値を更新
+    const updatedUserInput = [...userInput];
+    updatedUserInput[y][x] = 1;
+    setUserInput(updatedUserInput);
+
+    if (isPlaying) {
+      //userInptが0のマスの座標を取得
+      const emptyCells = [];
+      //userInput.lengthは９
+      for (let i = 0; i < userInput.length; i++) {
+        for (let j = 0; j < userInput[i].length; j++) {
+          if (userInput[i][j] === 0) {
+            emptyCells.push([j, i]);
+          }
         }
       }
-    }
-
-    //ランダムにボムを配置
-    for (let i = 0; i < bomCount; i++) {
-      const randomIndex = Math.floor(Math.random() * emptyCells.length);
-      const [bombX, bombY] = emptyCells[randomIndex];
-      bombMap[bombX][bombY] = 1;
-      emptyCells.splice(randomIndex, 1);
-    }
-
-    //クリックしたマスがボムの位置である場合はゲーム終了
-    if (bombMap[x][y] === 1) {
-      //爆発アニメーションなどの処理追加
-      console.log('爆発！ゲームオーバー');
-      return;
-    }
-
-    //周辺のマスの調査
-    for (const direction of directions) {
-      const dx = direction[0];
-      const dy = direction[1];
-      const newX = x + dx;
-      const newY = y + dy;
-
-      //座標がボードの範囲内かを確認
-      if (newX >= 0 && newX < userInput.length && newY >= 0 && newY < userInput[newX].length) {
-        //周囲のマスにボムがあるかを調べる
-        if (bombMap[newX][newY] === 1) {
-          //クリックしたマスの値を周囲のボムの数に更新
-          userInput[x][y]++;
-        }
+      //ランダムに１０個の座標を取得
+      const randomCells = [];
+      while (randomCells.length < 10 && emptyCells.length > 0) {
+        //０以上１未満のランダムな数値を生成。
+        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+        //emptyCellsからランダムなインデックスに対応する要素を削除し、その要素をrandomCellという変数に代入する
+        const randomCell = emptyCells.splice(randomIndex, 1)[0];
+        randomCells.push(randomCell);
       }
+
+      //bombMapの該当座標を１に変更
+      const updatedBomMap = [...bombMap];
+      for (const [x, y] of randomCells) {
+        updatedBomMap[y][x] = 1;
+      }
+      setBombMap(updatedBomMap);
+      console.log(updatedBomMap);
     }
-    //数字が表示されたマスをクリック済みの状態に変更
-    userInput[x][y] = 1;
   };
 
   return (
