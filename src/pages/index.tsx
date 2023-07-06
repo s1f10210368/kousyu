@@ -69,14 +69,14 @@ const Home = () => {
     const [dx, dy] = direction;
     const tempX = x + dx;
     const tempY = y + dy;
-    let bom_count = 0;
+    let bombCount = 0;
 
-    if (bombMap[tempX][tempY] === 1) {
-      bom_count = 1;
-      return bom_count;
+    if (tempX >= 0 && tempX < bombMap[y].length && tempY >= 0 && bombMap.length) {
+      if (bombMap[tempY][tempX] === 1) {
+        bombCount = 1;
+      }
     }
-    return bom_count;
-    console.log(bom_count);
+    return bombCount;
   };
 
   //userInputが１の場合のみtrue（ボム作成時に使用）
@@ -98,7 +98,7 @@ const Home = () => {
         const randomX = Math.floor(Math.random() * 9);
         const randomY = Math.floor(Math.random() * 9);
         if (randomX !== x && randomY !== y && updatedBombMap[randomY][randomY] !== 1) {
-          updatedBombMap[randomY][randomX] = 11;
+          updatedBombMap[randomY][randomX] = 1;
           count++;
         }
         setBombMap(updatedBombMap);
@@ -114,8 +114,15 @@ const Home = () => {
         if (updatedUserInput[y][x] === 1) {
           if (bombMap[y][x] === 1) {
             row.push(11); //ボムセル
+            console.log('ゲームオーバー');
           } else {
-            const count = 0;
+            let count = 0;
+            //周囲８方向を調べてボムの数をカウント
+            for (const [dx, dy] of directions) {
+              const nx = x + dx;
+              const ny = y + dy;
+              count += check(nx, ny, [dx, dy]);
+            }
 
             row.push(count); //数字セル
           }
