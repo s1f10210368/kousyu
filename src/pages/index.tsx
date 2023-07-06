@@ -34,6 +34,7 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
+  const board: number[][] = [];
   //ゲーム開始
   //const isPlaying = userInput.some((row) => row.some((input) => input !== 0));
   //爆発
@@ -48,7 +49,7 @@ const Home = () => {
   // 9 -> 石＋はてな
   // 10 -> 石＋旗
   // 11 -> ボムセル
-  const board: number[][] = [];
+  //const board: number[][] = [];
 
   //8方向辞書
   const directions = [
@@ -72,28 +73,17 @@ const Home = () => {
 
     if (bombMap[tempX][tempY] === 1) {
       bom_count = 1;
+      return bom_count;
     }
     return bom_count;
     console.log(bom_count);
   };
-
-  //for (){
-  //board + directions + userInput +
 
   //userInputが１の場合のみtrue（ボム作成時に使用）
   const jaj = userInput.flat().filter((input) => input === 1).length === 1;
 
   const onClick = (x: number, y: number) => {
     console.log(x, y);
-
-    //boardを初期状態ー１に設定する
-    for (let i = 0; i < userInput.length; i++) {
-      const row: number[] = [];
-      for (let j = 0; j < userInput[i].length; j++) {
-        row.push(-1);
-      }
-      board.push(row);
-    }
 
     //ユーザのクリックに応じてuserInputの値を更新
     const updatedUserInput = [...userInput];
@@ -108,28 +98,35 @@ const Home = () => {
         const randomX = Math.floor(Math.random() * 9);
         const randomY = Math.floor(Math.random() * 9);
         if (randomX !== x && randomY !== y && updatedBombMap[randomY][randomY] !== 1) {
-          updatedBombMap[randomY][randomX] = 1;
+          updatedBombMap[randomY][randomX] = 11;
           count++;
         }
         setBombMap(updatedBombMap);
       }
     }
-    console.log(bombMap);
+    console.log('BombMap');
+    console.table(bombMap);
 
-    //押した場所にボムマップのボムがある場合１１をボードに返す
-    if (bombMap[y][x] === 1) {
-      board[y][x] = 11;
-      console.log('ゲーム終了');
-    }
+    //board作成
+    for (let y = 0; y < updatedUserInput.length; y++) {
+      const row: number[] = [];
+      for (let x = 0; x < updatedUserInput[y].length; x++) {
+        if (updatedUserInput[y][x] === 1) {
+          if (bombMap[y][x] === 1) {
+            row.push(11); //ボムセル
+          } else {
+            const count = 0;
 
-    //directionsで格納した各方向から隣接している数をチェック
-    let count = 0;
-    for (const direction of directions) {
-      count = check(x, y, direction);
+            row.push(count); //数字セル
+          }
+        } else {
+          row.push(-1); //石
+        }
+      }
+      board.push(row);
     }
-    //boardの中身を隣接する数に変更
-    board[y][x] = count;
-    console.log(board);
+    console.log('Board');
+    console.table(board);
   };
 
   return (
