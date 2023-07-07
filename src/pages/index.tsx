@@ -64,16 +64,15 @@ const Home = () => {
   ];
 
   //押した場所周囲８方向を探索し隣接している数字を表示する関数
-  const check = (x: number, y: number, direction: number[]) => {
-    //bombMapから
-    const [dx, dy] = direction;
-    const tempX = x + dx;
-    const tempY = y + dy;
+  const check = (x: number, y: number) => {
     let bombCount = 0;
-
-    if (tempX >= 0 && tempX < bombMap[y].length && tempY >= 0 && bombMap.length) {
-      if (bombMap[tempY][tempX] === 1) {
-        bombCount = 1;
+    for (const [dx, dy] of directions) {
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx >= 0 && nx < bombMap[0].length && ny >= 0 && ny < bombMap.length) {
+        if (bombMap[ny][nx] === 1) {
+          bombCount++;
+        }
       }
     }
     return bombCount;
@@ -116,15 +115,8 @@ const Home = () => {
             row.push(11); //ボムセル
             console.log('ゲームオーバー');
           } else {
-            let count = 0;
-            //周囲８方向を調べてボムの数をカウント
-            for (const [dx, dy] of directions) {
-              const nx = x + dx;
-              const ny = y + dy;
-              count += check(nx, ny, [dx, dy]);
-            }
-
-            row.push(count); //数字セル
+            const count = check(y, x);
+            row.push(count);
           }
         } else {
           row.push(-1); //石
