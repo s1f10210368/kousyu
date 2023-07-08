@@ -88,55 +88,48 @@ const Home = () => {
   // console.log('board2');
   // console.table(board);
 
-  //押した場所周囲８方向を探索し隣接している数字を返す関数
+  //押した場所周囲８方向を探索し隣接を再帰する
   const check = (x: number, y: number) => {
     let bombCount = 0;
     for (const [dx, dy] of directions) {
       const nx = x + dx;
       const ny = y + dy;
       if (nx >= 0 && nx < bombMap[0].length && ny >= 0 && ny < bombMap.length) {
-        if (bombMap[ny][nx] === 1) {
+        if (bombMap[nx][ny] === 1) {
           bombCount++;
         }
       }
     }
-    return bombCount;
+    //bomがない場合に空白連鎖処理
+    if (bombCount === 0) {
+      board[x][y] = 0;
+      for (const [cx, cy] of directions) {
+        const mx = x + cx;
+        const my = y + cy;
+        if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length)
+          if (board[my][mx] !== -1 && userInput[my][mx] !== 1) {
+            //my,mxが訪問済みだった場合省く処理
+            check(my, mx);
+          }
+      }
+    } else {
+      board[x][y] = bombCount;
+    }
   };
 
   //boardの作成
   const createBoard = () => {
-    for (let y = 0; y < userInput.length; y++) {
-      for (let x = 0; x < userInput[y].length; x++) {
+    for (let x = 0; x < userInput.length; x++) {
+      for (let y = 0; y < userInput[x].length; y++) {
         if (userInput[y][x] === 1) {
           //ボムあるときゲームオーバー
-          if (bombMap[y][x] === 1) {
-            board[y][x] = 11;
+          if (bombMap[x][y] === 1) {
+            board[x][y] = 11;
             console.log('ゲームオーバー');
           }
-          // ボムないとき
+          // 押したところにボムないとき
           else {
-            //隣接するボムを計測
-            const count = check(x, y);
-            //隣接するボムが０の時
-            if (count === 0) {
-              //空白連鎖処理
-              board[y][x] = 0;
-              for (const [dx, dy] of directions) {
-                const nx = x + dx;
-                const ny = y + dy;
-                if (nx >= 0 && nx < bombMap[0].length && ny >= 0 && ny < bombMap.length) {
-                  while (check(nx, ny) !== 0) {
-                    userInput[dy][dx] = 1;
-                    board[dy][dx] = 0;
-                  }
-                }
-              }
-            }
-
-            //隣接するボムがあるとき
-            else {
-              board[y][x] = count;
-            }
+            check(y, x);
           }
         } else {
           board[y][x] = -1;
