@@ -101,6 +101,7 @@ const Home = () => {
       }
     }
     //bomがない場合に空白連鎖処理
+    //未完成
     if (bombCount === 0) {
       board[x][y] = 0;
       for (const [cx, cy] of directions) {
@@ -109,6 +110,7 @@ const Home = () => {
         if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length)
           if (board[my][mx] !== -1 && userInput[my][mx] !== 1) {
             //my,mxが訪問済みだった場合省く処理
+
             check(my, mx);
           }
       }
