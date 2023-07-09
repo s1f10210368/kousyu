@@ -75,19 +75,6 @@ const Home = () => {
     [-1, 1],
   ];
 
-  // console.log('board1');
-  // console.table(board);
-
-  // for (let s = 0; s < 9; s++) {
-  //   for (let t = 0; t < 9; t++) {
-  //     if (board[s][t] === -1) {
-  //       board[s][t] = 0;
-  //     }
-  //   }
-  // }
-  // console.log('board2');
-  // console.table(board);
-
   //押した場所周囲８方向を探索し隣接を再帰する
   const check = (x: number, y: number) => {
     let bombCount = 0;
@@ -101,7 +88,6 @@ const Home = () => {
       }
     }
     //bomがない場合に空白連鎖処理
-    //未完成
     if (bombCount === 0) {
       board[x][y] = 0;
       for (const [cx, cy] of directions) {
@@ -110,7 +96,10 @@ const Home = () => {
 
         if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length) {
           //my,mxが訪問済みだった場合省く処理
-          if (board[mx][my] !== -1 && userInput[mx][my] !== 1) {
+          if (board[mx][my] !== 0 && userInput[mx][my] !== 1) {
+            //console.log('check');
+            //console.log(mx);
+            //console.log(my);
             check(mx, my);
           }
         }
@@ -141,30 +130,6 @@ const Home = () => {
     }
     return board;
   };
-
-  //隣接するボムが０の時ユーザーインプットを１に更新
-  // const expandBlank = (x: number, y: number) => {
-  //   if (userInput[y][x] === 0) {
-  //     userInput[y][x] = 1;
-
-  //     for (const [dx, dy] of directions) {
-  //       const nx = x + dx;
-  //       const ny = y + dy;
-  //       if (nx >= 0 && nx < bombMap[0].length && ny >= 0 && ny < bombMap.length) {
-  //         if (userInput[ny][nx] === 0) {
-  //           userInput[ny][nx] = 1;
-  //           const count = check(nx, ny);
-  //           if (count === 0) {
-  //             expandBlank(nx, ny);
-  //           } else {
-  //             userInput[ny][nx] = 1;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
-
   createBoard();
 
   //userInputが１の場合のみtrue（ボム作成時に使用）
@@ -177,8 +142,8 @@ const Home = () => {
     const updatedUserInput = [...userInput];
     updatedUserInput[x][y] = 1;
     setUserInput(updatedUserInput);
-    console.log('userInput↓');
-    console.table(userInput);
+    //console.log('userInput↓');
+    //console.table(userInput);
 
     //ボムの配置
     if (jaj) {
@@ -198,8 +163,8 @@ const Home = () => {
     console.table(bombMap);
 
     //boardを作成
-    const board = createBoard();
-    console.log('Board↓');
+    createBoard();
+    console.log('board↓');
     console.table(board);
   };
 
@@ -210,12 +175,7 @@ const Home = () => {
           row.map((cell, y) => (
             <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)}>
               {cell === 0 && <div className={styles.stone0} />}
-              {cell === 1 && (
-                <div
-                  className={styles.stone1}
-                  //style={{ background: color === 1 ? '#000' : '#fff' }}
-                />
-              )}
+              {cell === 1 && <div className={styles.stone1} />}
               {cell === 2 && <div className={styles.stone2} />}
               {cell === 3 && <div className={styles.stone3} />}
               {cell === 4 && <div className={styles.stone4} />}

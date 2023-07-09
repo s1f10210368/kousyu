@@ -11,7 +11,7 @@
 .board {
   width: 270px;
   height: 270px;
-  background-color: grey;
+  background-color: gray;
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
   grid-template-rows: repeat(9, minmax(0, 1fr));
@@ -20,16 +20,16 @@
 .cell {
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: 1px solid white;
   position: relative;
   cursor: pointer;
 }
 
 .stone0 {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   background-color: gray;
-  border: 1px solid black;
+  border: 1px solid wheat;
   border-radius: 50%;
   position: absolute;
   top: 50%;
