@@ -87,25 +87,23 @@ const Home = () => {
         }
       }
     }
+    board[x][y] = bombCount;
     //bomがない場合に空白連鎖処理
     if (bombCount === 0) {
-      board[x][y] = 0;
       for (const [cx, cy] of directions) {
         const mx = x + cx;
         const my = y + cy;
 
         if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length) {
-          //my,mxが訪問済みだった場合省く処理
-          if (board[mx][my] !== 0 && userInput[mx][my] !== 1) {
+          //my,mxが未訪問の時実行
+          if (board[mx][my] === -1) {
             //console.log('check');
             //console.log(mx);
-            //console.log(my);
+            console.log(my, mx);
             check(mx, my);
           }
         }
       }
-    } else {
-      board[x][y] = bombCount;
     }
   };
 
@@ -123,8 +121,6 @@ const Home = () => {
           else {
             check(x, y);
           }
-        } else {
-          board[x][y] = -1;
         }
       }
     }
@@ -133,7 +129,7 @@ const Home = () => {
   createBoard();
 
   //userInputが１の場合のみtrue（ボム作成時に使用）
-  const jaj = userInput.flat().filter((input) => input === 1).length === 1;
+  const jaj = userInput.flat().filter((input) => input === 1).length === 0;
 
   const onClick = (x: number, y: number) => {
     console.log(x, y);
@@ -142,8 +138,9 @@ const Home = () => {
     const updatedUserInput = [...userInput];
     updatedUserInput[x][y] = 1;
     setUserInput(updatedUserInput);
-    //console.log('userInput↓');
-    //console.table(userInput);
+    console.log('ターン変わった！');
+    console.log('userInput↓');
+    console.table(userInput);
 
     //ボムの配置
     if (jaj) {
@@ -167,7 +164,13 @@ const Home = () => {
     console.log('board↓');
     console.table(board);
   };
-
+  board.forEach((row, x) =>
+    row.forEach((cell, y) => {
+      if (bombMap[x][y] === 1) {
+        board[x][y] = 11;
+      }
+    })
+  );
   return (
     <div className={styles.container}>
       <div className={styles.board}>
