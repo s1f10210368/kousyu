@@ -98,8 +98,7 @@ const Home = () => {
           //my,mxが未訪問の時実行
           if (board[mx][my] === -1) {
             //console.log('check');
-            //console.log(mx);
-            console.log(my, mx);
+            //console.log(my, mx);
             check(mx, my);
           }
         }
@@ -121,6 +120,9 @@ const Home = () => {
           else {
             check(x, y);
           }
+        }
+        if (userInput[x][y] === 3) {
+          board[x][y] = 10;
         }
       }
     }
@@ -149,7 +151,7 @@ const Home = () => {
       while (count < bomCount) {
         const randomX = Math.floor(Math.random() * 9);
         const randomY = Math.floor(Math.random() * 9);
-        if (randomX !== x && randomY !== y && updatedBombMap[randomY][randomY] !== 1) {
+        if (randomX !== x && randomY !== y && updatedBombMap[randomX][randomY] !== 1) {
           updatedBombMap[randomX][randomY] = 1;
           count++;
         }
@@ -164,28 +166,51 @@ const Home = () => {
     console.log('board↓');
     console.table(board);
   };
-  board.forEach((row, x) =>
-    row.forEach((cell, y) => {
-      if (bombMap[x][y] === 1) {
-        board[x][y] = 11;
-      }
-    })
-  );
+
+  const onRightClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    x: number,
+    y: number
+  ) => {
+    event.preventDefault();
+
+    // ユーザの右クリックに応じて userInput の値を更新
+    const updatedUserInput = [...userInput];
+    if (updatedUserInput[x][y] === 0) {
+      updatedUserInput[x][y] = 3; // 旗
+    } else if (updatedUserInput[x][y] === 3) {
+      updatedUserInput[x][y] = 0; // 未クリックに戻す
+    }
+    setUserInput(updatedUserInput);
+  };
+
+  //bomb表示（いらない）
+  // board.forEach((row, x) =>
+  //   row.forEach((cell, y) => {
+  //     if (bombMap[x][y] === 1) {
+  //       board[x][y] = 11;
+  //     }
+  //   })
+  // );
+
   return (
     <div className={styles.container}>
       <div className={styles.board}>
         {board.map((row, x) =>
           row.map((cell, y) => (
-            <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)}>
-              {cell === 0 && <div className={styles.stone0} />}
-              {cell === 1 && <div className={styles.stone1} />}
-              {cell === 2 && <div className={styles.stone2} />}
-              {cell === 3 && <div className={styles.stone3} />}
-              {cell === 4 && <div className={styles.stone4} />}
-              {cell === 5 && <div className={styles.stone5} />}
-              {cell === 6 && <div className={styles.stone6} />}
-              {cell === 7 && <div className={styles.stone7} />}
-              {cell === 8 && <div className={styles.stone8} />}
+            <div
+              className={styles.cell}
+              key={`${x}-${y}`}
+              onClick={() => onClick(x, y)}
+              onContextMenu={(e) => onRightClick(e, x, y)}
+            >
+              {cell === -1 && <div className={styles.stone} />}
+              {cell === 0 && <div className={styles.stone0} style={{}} />}
+              {cell > 0 && cell < 9 && (
+                <div className={styles.number} style={{ backgroundPosition: -30 * cell + 30 }} />
+              )}
+
+              {cell === 10 && <div className={styles.flag} />}
               {cell === 11 && <div className={styles.bom} />}
             </div>
           ))
