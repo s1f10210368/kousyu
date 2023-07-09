@@ -107,12 +107,13 @@ const Home = () => {
       for (const [cx, cy] of directions) {
         const mx = x + cx;
         const my = y + cy;
-        if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length)
-          if (board[my][mx] !== -1 && userInput[my][mx] !== 1) {
-            //my,mxが訪問済みだった場合省く処理
 
-            check(my, mx);
+        if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length) {
+          //my,mxが訪問済みだった場合省く処理
+          if (board[mx][my] !== -1 && userInput[mx][my] !== 1) {
+            check(mx, my);
           }
+        }
       }
     } else {
       board[x][y] = bombCount;
@@ -123,7 +124,7 @@ const Home = () => {
   const createBoard = () => {
     for (let x = 0; x < userInput.length; x++) {
       for (let y = 0; y < userInput[x].length; y++) {
-        if (userInput[y][x] === 1) {
+        if (userInput[x][y] === 1) {
           //ボムあるときゲームオーバー
           if (bombMap[x][y] === 1) {
             board[x][y] = 11;
@@ -131,10 +132,10 @@ const Home = () => {
           }
           // 押したところにボムないとき
           else {
-            check(y, x);
+            check(x, y);
           }
         } else {
-          board[y][x] = -1;
+          board[x][y] = -1;
         }
       }
     }
@@ -174,8 +175,9 @@ const Home = () => {
 
     //ユーザのクリックに応じてuserInputの値を更新
     const updatedUserInput = [...userInput];
-    updatedUserInput[y][x] = 1;
+    updatedUserInput[x][y] = 1;
     setUserInput(updatedUserInput);
+    console.log('userInput↓');
     console.table(userInput);
 
     //ボムの配置
@@ -186,7 +188,7 @@ const Home = () => {
         const randomX = Math.floor(Math.random() * 9);
         const randomY = Math.floor(Math.random() * 9);
         if (randomX !== x && randomY !== y && updatedBombMap[randomY][randomY] !== 1) {
-          updatedBombMap[randomY][randomX] = 1;
+          updatedBombMap[randomX][randomY] = 1;
           count++;
         }
         setBombMap(updatedBombMap);
@@ -204,15 +206,24 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.board}>
-        {board.map((row, y) =>
-          row.map((color, x) => (
+        {board.map((row, x) =>
+          row.map((cell, y) => (
             <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)}>
-              {color !== -1 && (
+              {cell === 0 && <div className={styles.stone0} />}
+              {cell === 1 && (
                 <div
-                  className={styles.stone}
+                  className={styles.stone1}
                   //style={{ background: color === 1 ? '#000' : '#fff' }}
                 />
               )}
+              {cell === 2 && <div className={styles.stone2} />}
+              {cell === 3 && <div className={styles.stone3} />}
+              {cell === 4 && <div className={styles.stone4} />}
+              {cell === 5 && <div className={styles.stone5} />}
+              {cell === 6 && <div className={styles.stone6} />}
+              {cell === 7 && <div className={styles.stone7} />}
+              {cell === 8 && <div className={styles.stone8} />}
+              {cell === 11 && <div className={styles.bom} />}
             </div>
           ))
         )}

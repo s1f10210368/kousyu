@@ -25,10 +25,118 @@
   cursor: pointer;
 }
 
-.stone {
+.stone0 {
+  width: 30px;
+  height: 30px;
+  background-color: gray;
+  border: 1px solid black;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone1 {
   width: 30px;
   height: 30px;
   background: url('~/assets/images/icons.png') no-repeat;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone2 {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -30px 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone3 {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -60px 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone4 {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -90px 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone5 {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -120px 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone6 {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -150px 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone7 {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -180px 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone8 {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -210px 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bom {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -300px 0;
   border-radius: 50%;
   position: absolute;
   top: 50%;
