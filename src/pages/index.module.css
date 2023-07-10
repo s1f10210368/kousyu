@@ -8,7 +8,14 @@
   padding: 0 0.5rem;
 }
 
+.gamelog {
+  width: 200px;
+  position: relative;
+  left: 300px;
+}
+
 .board {
+  position: relative;
   width: 270px;
   height: 270px;
   background-color: gray;

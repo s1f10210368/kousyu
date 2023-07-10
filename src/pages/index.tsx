@@ -49,9 +49,9 @@ const Home = () => {
   //ゲーム開始
   //const isPlaying = userInput.some((row) => row.some((input) => input !== 0));
   //爆発
-  //const isFailure = userInputs.some((row, y) =>
-  //  row.some((input, x) => input === 1 && bombMap[y][x] === 1)
-  //);
+  // const isFailure = userInput.some((row, y) =>
+  //   row.some((input, x) => input === 1 && bombMap[y][x] === 1)
+  // );
 
   //boardを計算でusestateとbombmapから作る
   // -1 -> 石
@@ -106,6 +106,8 @@ const Home = () => {
     }
   };
 
+  //GameOverのフラッグ
+  let gameOver = false;
   //boardの作成
   const createBoard = () => {
     for (let x = 0; x < userInput.length; x++) {
@@ -114,6 +116,15 @@ const Home = () => {
           //ボムあるときゲームオーバー
           if (bombMap[x][y] === 1) {
             board[x][y] = 11;
+            gameOver = true;
+            //bombを一斉に表示
+            board.forEach((row, x) =>
+              row.forEach((cell, y) => {
+                if (bombMap[x][y] === 1) {
+                  board[x][y] = 11;
+                }
+              })
+            );
             console.log('ゲームオーバー');
           }
           // 押したところにボムないとき
@@ -132,6 +143,9 @@ const Home = () => {
 
   //userInputが１の場合のみtrue（ボム作成時に使用）
   const jaj = userInput.flat().filter((input) => input === 1).length === 0;
+
+  //何回クリックしたか
+  const clickCount = userInput.flat().filter((value) => value === 1).length;
 
   const onClick = (x: number, y: number) => {
     console.log(x, y);
@@ -158,6 +172,7 @@ const Home = () => {
         setBombMap(updatedBombMap);
       }
     }
+
     console.log('BombMap↓');
     console.table(bombMap);
 
@@ -195,6 +210,18 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+      {/* ゲームオーバーを表示する */}
+      <div className={styles.gamelog}>
+        {gameOver && (
+          <div>
+            <p>
+              時間:○○秒 <br />
+              クリック数：{clickCount}
+            </p>
+          </div>
+        )}
+      </div>
+      {/* マインスイーパーを表示 */}
       <div className={styles.board}>
         {board.map((row, x) =>
           row.map((cell, y) => (
