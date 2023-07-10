@@ -62,6 +62,9 @@ const Home = () => {
   // 11 -> ボムセル
   //const board: number[][] = [];
 
+  //クリック数
+  const clickCount = userInput.flat().filter((value) => value === 1).length;
+
   //8方向辞書
   const directions = [
     //左から反時計回り
@@ -117,6 +120,7 @@ const Home = () => {
           if (bombMap[x][y] === 1) {
             board[x][y] = 11;
             gameOver = true;
+
             //bombを一斉に表示
             board.forEach((row, x) =>
               row.forEach((cell, y) => {
@@ -128,7 +132,7 @@ const Home = () => {
             console.log('ゲームオーバー');
           }
           // 押したところにボムないとき
-          else {
+          if (bombMap[x][y] === 0) {
             check(x, y);
           }
         }
@@ -144,11 +148,17 @@ const Home = () => {
   //userInputが１の場合のみtrue（ボム作成時に使用）
   const jaj = userInput.flat().filter((input) => input === 1).length === 0;
 
-  //何回クリックしたか
-  const clickCount = userInput.flat().filter((value) => value === 1).length;
-
   const onClick = (x: number, y: number) => {
     console.log(x, y);
+
+    //爆発したらおせなくする
+    for (let x = 0; x < userInput.length; x++) {
+      for (let y = 0; y < userInput[x].length; y++) {
+        if (board[x][y] === 11) {
+          return;
+        }
+      }
+    }
 
     //ユーザのクリックに応じてuserInputの値を更新
     const updatedUserInput = [...userInput];
@@ -189,6 +199,15 @@ const Home = () => {
   ) => {
     event.preventDefault();
 
+    //爆発したらおせなくする
+    for (let x = 0; x < userInput.length; x++) {
+      for (let y = 0; y < userInput[x].length; y++) {
+        if (board[x][y] === 11) {
+          return;
+        }
+      }
+    }
+
     // ユーザの右クリックに応じて userInput の値を更新
     const updatedUserInput = [...userInput];
     if (updatedUserInput[x][y] === 0) {
@@ -211,16 +230,16 @@ const Home = () => {
   return (
     <div className={styles.container}>
       {/* ゲームオーバーを表示する */}
-      <div className={styles.gamelog}>
-        {gameOver && (
+      {gameOver && (
+        <div className={styles.gamelog}>
           <div>
             <p>
               時間:○○秒 <br />
               クリック数：{clickCount}
             </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       {/* マインスイーパーを表示 */}
       <div className={styles.board}>
         {board.map((row, x) =>

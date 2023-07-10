@@ -11,7 +11,9 @@
 .gamelog {
   width: 200px;
   position: relative;
+  top: 100px;
   left: 300px;
+  border: 1px solid black;
 }
 
 .board {
