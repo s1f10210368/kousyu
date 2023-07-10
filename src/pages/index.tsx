@@ -53,6 +53,7 @@ const Home = () => {
     row.some((input, x) => input === 1 && bombMap[y][x] === 1)
   );
 
+  //時刻表示
   //タイマーの経過時間を保持する変数。初期値０
   const [timer, setTimer] = useState(0);
 
@@ -74,10 +75,11 @@ const Home = () => {
   }, [isPlaying, isFailure]);
 
   const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
+    //const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${seconds}秒`;
   };
+
   //boardを計算でusestateとbombmapから作る
   // -1 -> 石
   // 0 -> 画像なしセル
@@ -272,7 +274,7 @@ const Home = () => {
               <br />
               時間:
               {formatTime(timer)}
-              秒 <br />
+              <br />
               クリック数：{clickCount} + {flagCount}
             </p>
           </div>
