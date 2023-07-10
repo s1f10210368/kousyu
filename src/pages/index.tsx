@@ -75,9 +75,9 @@ const Home = () => {
   }, [isPlaying, isFailure]);
 
   const formatTime = (time: number): string => {
-    //const minutes = Math.floor(time / 60);
+    const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${seconds}秒`;
+    return `${minutes}:${seconds}`;
   };
 
   //boardを計算でusestateとbombmapから作る
@@ -170,7 +170,7 @@ const Home = () => {
           board[x][y] = 10;
         }
         //ゲーム勝利
-        else if (!board.some((row) => row.includes(-1))) {
+        if (!board.some((row) => row.includes(-1))) {
           gameWin = true;
         }
       }
@@ -188,7 +188,7 @@ const Home = () => {
     //爆発したらまたはゲーム勝利したらおせなくする
     for (let x = 0; x < userInput.length; x++) {
       for (let y = 0; y < userInput[x].length; y++) {
-        if (board[x][y] === 11 || board.every((row) => row.every((cell) => cell !== -1))) {
+        if (board[x][y] === 11 || !board.some((row) => row.includes(-1))) {
           return;
         }
       }
@@ -236,7 +236,7 @@ const Home = () => {
     //爆発したらおせなくする
     for (let x = 0; x < userInput.length; x++) {
       for (let y = 0; y < userInput[x].length; y++) {
-        if (board[x][y] === 11) {
+        if (board[x][y] === 11 || !board.some((row) => row.includes(-1))) {
           return;
         }
       }
@@ -263,8 +263,17 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      {/* タイマー表示 */}
-      <div>{isPlaying && !isFailure && <div>Time: {formatTime(timer)}</div>}</div>
+      <div className={styles.top}>
+        {/* フラッグ表示 */}
+        <div className={styles.left}>{10 - flagCount}</div>
+        {/* ニコちゃんマーク表示 */}
+        <div className={styles.between} />
+
+        {/* タイマー表示 */}
+        <div className={styles.timelog}>
+          <div>{formatTime(timer)}</div>
+        </div>
+      </div>
       {/* ゲームオーバーを表示する */}
       {gameOver && (
         <div className={styles.gameover}>
@@ -287,7 +296,7 @@ const Home = () => {
             <p>
               おめでとう！
               <br />
-              時間:○○秒 <br />
+              時間:{formatTime(timer)} <br />
               クリック数:{clickCount} + {flagCount}
             </p>
           </div>

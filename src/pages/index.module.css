@@ -8,27 +8,51 @@
   padding: 0 0.5rem;
 }
 
-.timer {
-  width: 100px;
+.top {
+  width: 270px;
+  display: flex;
+  background-color: gray;
+  border: outset 10px;
+  justify-content: center;
 }
 
-.timer1 {
-  width: 200px;
+.left {
+  font-size: 40px;
+  background-color: black;
+  color: #f31b1b;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.between {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -330px 0;
+  display: inline-block;
+  transform: scale(2, 2);
+  margin-top: 10px;
+}
+
+.timelog {
+  font-size: 40px;
+  background-color: black;
+  color: #f31b1b;
+  display: inline-block;
+  margin-left: 20px;
 }
 
 .gameover {
   width: 200px;
+  margin-left: 500px;
   position: relative;
-  top: 100px;
-  left: 300px;
   border: 1px solid black;
 }
 
 .gamewin {
   width: 200px;
   position: relative;
-  top: 100px;
-  left: 300px;
+  margin-left: 500px;
   border: 1px solid black;
 }
 
