@@ -8,7 +8,23 @@
   padding: 0 0.5rem;
 }
 
-.gamelog {
+.timer {
+  width: 100px;
+}
+
+.timer1 {
+  width: 200px;
+}
+
+.gameover {
+  width: 200px;
+  position: relative;
+  top: 100px;
+  left: 300px;
+  border: 1px solid black;
+}
+
+.gamewin {
   width: 200px;
   position: relative;
   top: 100px;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -47,12 +47,37 @@ const Home = () => {
   ];
 
   //ゲーム開始
-  //const isPlaying = userInput.some((row) => row.some((input) => input !== 0));
+  const isPlaying = userInput.some((row) => row.some((input) => input !== 0));
   //爆発
-  // const isFailure = userInput.some((row, y) =>
-  //   row.some((input, x) => input === 1 && bombMap[y][x] === 1)
-  // );
+  const isFailure = userInput.some((row, y) =>
+    row.some((input, x) => input === 1 && bombMap[y][x] === 1)
+  );
 
+  //タイマーの経過時間を保持する変数。初期値０
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | undefined;
+
+    if (isPlaying) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    }
+
+    if (isFailure) {
+      clearInterval(intervalId);
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isPlaying, isFailure]);
+
+  const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
   //boardを計算でusestateとbombmapから作る
   // -1 -> 石
   // 0 -> 画像なしセル
@@ -64,6 +89,7 @@ const Home = () => {
 
   //クリック数
   const clickCount = userInput.flat().filter((value) => value === 1).length;
+  const flagCount = userInput.flat().filter((value) => value === 3).length;
 
   //8方向辞書
   const directions = [
@@ -111,6 +137,7 @@ const Home = () => {
 
   //GameOverのフラッグ
   let gameOver = false;
+  let gameWin = false;
   //boardの作成
   const createBoard = () => {
     for (let x = 0; x < userInput.length; x++) {
@@ -136,8 +163,13 @@ const Home = () => {
             check(x, y);
           }
         }
-        if (userInput[x][y] === 3) {
+        //フラグ処理
+        else if (userInput[x][y] === 3) {
           board[x][y] = 10;
+        }
+        //ゲーム勝利
+        else if (!board.some((row) => row.includes(-1))) {
+          gameWin = true;
         }
       }
     }
@@ -151,10 +183,10 @@ const Home = () => {
   const onClick = (x: number, y: number) => {
     console.log(x, y);
 
-    //爆発したらおせなくする
+    //爆発したらまたはゲーム勝利したらおせなくする
     for (let x = 0; x < userInput.length; x++) {
       for (let y = 0; y < userInput[x].length; y++) {
-        if (board[x][y] === 11) {
+        if (board[x][y] === 11 || board.every((row) => row.every((cell) => cell !== -1))) {
           return;
         }
       }
@@ -229,13 +261,32 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+      {/* タイマー表示 */}
+      <div>{isPlaying && !isFailure && <div>Time: {formatTime(timer)}</div>}</div>
       {/* ゲームオーバーを表示する */}
       {gameOver && (
-        <div className={styles.gamelog}>
+        <div className={styles.gameover}>
           <div>
             <p>
+              ゲームオーバー
+              <br />
+              時間:
+              {formatTime(timer)}
+              秒 <br />
+              クリック数：{clickCount} + {flagCount}
+            </p>
+          </div>
+        </div>
+      )}
+      {/* ゲーム勝利を表示する */}
+      {gameWin && (
+        <div className={styles.gamewin}>
+          <div>
+            <p>
+              おめでとう！
+              <br />
               時間:○○秒 <br />
-              クリック数：{clickCount}
+              クリック数:{clickCount} + {flagCount}
             </p>
           </div>
         </div>
