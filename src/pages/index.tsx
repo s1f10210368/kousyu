@@ -252,6 +252,31 @@ const Home = () => {
     setUserInput(updatedUserInput);
   };
 
+  const resetGame = () => {
+    setUserInput([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+    setBombMap([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  };
+
   //bomb表示（いらない）
   // board.forEach((row, x) =>
   //   row.forEach((cell, y) => {
@@ -268,7 +293,7 @@ const Home = () => {
           {/* フラッグ表示 */}
           <div className={styles.left}>{10 - flagCount}</div>
           {/* ニコちゃんマーク表示 */}
-          <div className={styles.between} />
+          <div className={styles.between} onClick={() => resetGame} />
 
           {/* タイマー表示 */}
           <div className={styles.timelog}>
@@ -298,6 +323,7 @@ const Home = () => {
           )}
         </div>
       </div>
+      {/* ログを表示 */}
       <div className={styles.rilog}>
         {/* ゲームオーバーを表示する */}
         {gameOver && (
