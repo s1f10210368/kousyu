@@ -1,13 +1,21 @@
 .container {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
   min-height: 100vh;
   padding: 0 0.5rem;
+  float: left;
 }
 
+.center {
+  float: left;
+  position: absolute;
+  top: 20%;
+  left: 40%;
+}
+
+/* 画面上部 */
 .top {
   width: 270px;
   display: flex;
@@ -42,6 +50,13 @@
   margin-left: 20px;
 }
 
+/* 終了画面 */
+.rilog {
+  position: absolute;
+  left: 30%;
+  top: 20%;
+}
+
 .gameover {
   width: 200px;
   margin-left: 500px;
@@ -56,6 +71,7 @@
   border: 1px solid black;
 }
 
+/* ゲーム画面 */
 .board {
   position: relative;
   width: 270px;
