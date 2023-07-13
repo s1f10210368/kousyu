@@ -33,11 +33,31 @@
   margin-right: 20px;
 }
 
-.between {
+.betweensmile {
   width: 30px;
   height: 30px;
   background: url('~/assets/images/icons.png') no-repeat;
   background-position: -330px 0;
+  display: inline-block;
+  transform: scale(2, 2);
+  margin-top: 10px;
+}
+
+.betweensad {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -390px 0;
+  display: inline-block;
+  transform: scale(2, 2);
+  margin-top: 10px;
+}
+
+.betweenwin {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-position: -360px 0;
   display: inline-block;
   transform: scale(2, 2);
   margin-top: 10px;

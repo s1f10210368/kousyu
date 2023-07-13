@@ -53,6 +53,11 @@ const Home = () => {
     row.some((input, x) => input === 1 && bombMap[y][x] === 1)
   );
 
+  //GameOverのフラッグ
+  let gameOver = false;
+  //GameWinのフラッグ
+  let gameWin = false;
+
   //時刻表示
   //タイマーの経過時間を保持する変数。初期値０
   const [timer, setTimer] = useState(0);
@@ -64,6 +69,8 @@ const Home = () => {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
+    } else {
+      clearInterval(intervalId);
     }
 
     if (isFailure) {
@@ -77,7 +84,7 @@ const Home = () => {
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    const formattedMinutes = minutes.toString();
+    const formattedMinutes = minutes.toString().padStart(1, '0');
     const formattedSeconds = seconds.toString().padStart(2, '0');
     return `${formattedMinutes}${formattedSeconds}`;
   };
@@ -139,10 +146,6 @@ const Home = () => {
     }
   };
 
-  //GameOverのフラッグ
-  let gameOver = false;
-  //GameWinのフラッグ
-  let gameWin = false;
   //boardの作成
   const createBoard = () => {
     for (let x = 0; x < userInput.length; x++) {
@@ -302,7 +305,9 @@ const Home = () => {
           {/* フラッグ表示 */}
           <div className={styles.left}>{formatFlagCount(10 - flagCount)}</div>
           {/* ニコちゃんマーク表示 */}
-          <div className={styles.between} />
+          {!gameOver && !gameWin && <div className={styles.betweensmile} />}
+          {gameOver && <div className={styles.betweensad} />}
+          {gameWin && <div className={styles.betweenwin} />}
           {/* タイマー表示 */}
           <div className={styles.timelog}>
             <div>{formatTime(timer)}</div>
