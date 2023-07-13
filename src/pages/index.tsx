@@ -255,6 +255,10 @@ const Home = () => {
     setUserInput(updatedUserInput);
   };
 
+  const formatFlagCount = (count: number): string => {
+    return count.toString().padStart(3, '0');
+  };
+
   //未完成
   // const resetGame = () => {
   //   setUserInput([
@@ -296,7 +300,7 @@ const Home = () => {
         <div className={styles.top}>
           {/* onClik={() => resetGame()} */}
           {/* フラッグ表示 */}
-          <div className={styles.left}>{10 - flagCount}</div>
+          <div className={styles.left}>{formatFlagCount(10 - flagCount)}</div>
           {/* ニコちゃんマーク表示 */}
           <div className={styles.between} />
           {/* タイマー表示 */}
