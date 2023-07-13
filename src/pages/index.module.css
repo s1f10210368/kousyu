@@ -19,14 +19,15 @@
 .top {
   width: 270px;
   display: flex;
-  background-color: gray;
+  background-color: rgb(192 189 189);
   border: outset 10px;
   justify-content: center;
 }
 
 .left {
   font-size: 40px;
-  background-color: black;
+  font-weight: 900;
+  background-color: rgb(58 19 19);
   color: #f31b1b;
   display: inline-block;
   margin-right: 20px;
@@ -44,7 +45,8 @@
 
 .timelog {
   font-size: 40px;
-  background-color: black;
+  font-weight: 900;
+  background-color: rgb(60 28 28);
   color: #f31b1b;
   display: inline-block;
   margin-left: 20px;
@@ -76,7 +78,7 @@
   position: relative;
   width: 270px;
   height: 270px;
-  background-color: gray;
+  background-color: rgb(183 183 183);
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
   grid-template-rows: repeat(9, minmax(0, 1fr));
@@ -93,7 +95,7 @@
 .stone {
   width: 26px;
   height: 26px;
-  background-color: gray;
+  background-color: rgb(179 179 179);
   border: 1px solid wheat;
   border: outset 4px;
   position: absolute;
@@ -113,7 +115,7 @@
 .stone0 {
   width: 24px;
   height: 24px;
-  background-color: gray;
+  background-color: rgb(182 182 182);
   position: absolute;
   top: 50%;
   left: 50%;

@@ -77,7 +77,9 @@ const Home = () => {
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes}:${seconds}`;
+    const formattedMinutes = minutes.toString();
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    return `${formattedMinutes}${formattedSeconds}`;
   };
 
   //boardを計算でusestateとbombmapから作る
@@ -254,30 +256,30 @@ const Home = () => {
   };
 
   //未完成
-  const resetGame = () => {
-    setUserInput([
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ]);
-    setBombMap([
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ]);
-  };
+  // const resetGame = () => {
+  //   setUserInput([
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   ]);
+  //   setBombMap([
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   ]);
+  // };
 
   //bomb表示（いらない）
   // board.forEach((row, x) =>
@@ -292,11 +294,11 @@ const Home = () => {
     <div className={styles.container}>
       <div className={styles.center}>
         <div className={styles.top}>
+          {/* onClik={() => resetGame()} */}
           {/* フラッグ表示 */}
           <div className={styles.left}>{10 - flagCount}</div>
           {/* ニコちゃんマーク表示 */}
-          <div className={styles.between} onClick={() => resetGame} />
-
+          <div className={styles.between} />
           {/* タイマー表示 */}
           <div className={styles.timelog}>
             <div>{formatTime(timer)}</div>

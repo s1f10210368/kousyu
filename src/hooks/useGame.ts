@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export const useGame = () => {
   //0 -> 未クリック
   //1 -> 左クリック
