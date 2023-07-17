@@ -1,18 +1,27 @@
 import { useGame } from '../hooks/useGame';
 import { useIndex } from '../hooks/useIndex';
+import { useTimer } from '../hooks/useTimer';
 import styles from './index.module.css';
 
 const Home = () => {
-  const { board, timer, gameWin, gameOver, onClick, onRightClick, clickCount, flagCount } =
-    useGame();
-
+  const {
+    userInput,
+    bombMap,
+    board,
+    gameWin,
+    gameOver,
+    onClick,
+    onRightClick,
+    clickCount,
+    flagCount,
+  } = useGame();
   const { formatFlagCount, formatTime } = useIndex();
 
+  const { timer } = useTimer(userInput, bombMap);
   return (
     <div className={styles.container}>
       <div className={styles.center}>
         <div className={styles.top}>
-          {/* onClik={() => resetGame()} */}
           {/* フラッグ表示 */}
           <div className={styles.left}>{formatFlagCount(10 - flagCount)}</div>
           {/* ニコちゃんマーク表示 */}
@@ -71,7 +80,8 @@ const Home = () => {
               <p>
                 おめでとう！
                 <br />
-                時間:{formatTime(timer)} <br />
+                時間:
+                {formatTime(timer)} <br />
                 クリック数:{clickCount} + {flagCount}
               </p>
             </div>

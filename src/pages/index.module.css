@@ -31,6 +31,7 @@
   color: #f31b1b;
   display: inline-block;
   margin-right: 20px;
+  border: outset 1px;
 }
 
 .betweensmile {
@@ -70,18 +71,18 @@
   color: #f31b1b;
   display: inline-block;
   margin-left: 20px;
+  border: outset 1px;
 }
 
 /* 終了画面 */
 .rilog {
-  position: absolute;
-  left: 30%;
+  position: relative;
+  left: 600%;
   top: 20%;
 }
 
 .gameover {
   width: 200px;
-  margin-left: 500px;
   position: relative;
   border: 1px solid black;
 }
@@ -89,7 +90,6 @@
 .gamewin {
   width: 200px;
   position: relative;
-  margin-left: 500px;
   border: 1px solid black;
 }
 

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useIndex } from './useIndex';
 
 const useGame = () => {
@@ -11,33 +10,22 @@ const useGame = () => {
   // 10 -> 石＋旗
   // 11 -> ボムセル
 
-  //ゲーム開始
-  const isPlaying = userInput.some((row) => row.some((input) => input !== 0));
-  //爆発
-  const isFailure = userInput.some((row, y) =>
-    row.some((input, x) => input === 1 && bombMap[y][x] === 1)
-  );
+  //空白連鎖処理
+  const chainBlank = (bombCount: number, x: number, y: number) => {
+    if (bombCount === 0) {
+      for (const [cx, cy] of directions) {
+        const mx = x + cx;
+        const my = y + cy;
 
-  const [timer, setTimer] = useState(0);
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout | undefined;
-
-    if (isPlaying) {
-      intervalId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer + 1);
-      }, 1000);
-    } else {
-      clearInterval(intervalId);
+        if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length) {
+          //my,mxが未訪問の時実行
+          if (board[mx][my] === -1) {
+            check(mx, my);
+          }
+        }
+      }
     }
-
-    if (isFailure) {
-      clearInterval(intervalId);
-    }
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [isPlaying, isFailure]);
+  };
 
   //押した場所周囲８方向を探索し隣接を再帰する
   const check = (x: number, y: number) => {
@@ -53,21 +41,7 @@ const useGame = () => {
     }
     board[x][y] = bombCount;
     //bomがない場合に空白連鎖処理
-    if (bombCount === 0) {
-      for (const [cx, cy] of directions) {
-        const mx = x + cx;
-        const my = y + cy;
-
-        if (mx >= 0 && mx < bombMap[0].length && my >= 0 && my < bombMap.length) {
-          //my,mxが未訪問の時実行
-          if (board[mx][my] === -1) {
-            //console.log('check');
-            //console.log(my, mx);
-            check(mx, my);
-          }
-        }
-      }
-    }
+    chainBlank(bombCount, x, y);
   };
 
   //GameOverのフラッグ
@@ -196,10 +170,6 @@ const useGame = () => {
   return {
     userInput,
     bombMap,
-    isPlaying,
-    isFailure,
-    timer,
-    setTimer,
     gameOver,
     gameWin,
     board,
