@@ -4,7 +4,6 @@ import { useIndex } from './useIndex';
 const useGame = () => {
   const { userInput, bombMap, setUserInput, setBombMap, board, directions } = useIndex();
 
-  //boardを計算でusestateとbombmapから作る
   // -1 -> 石
   // 0 -> 画像なしセル
   // 1~8 -> 数字セル

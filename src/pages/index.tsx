@@ -1,15 +1,12 @@
 import { useGame } from '../hooks/useGame';
 import { useIndex } from '../hooks/useIndex';
-import { useTimes } from '../hooks/useTimes';
 import styles from './index.module.css';
 
 const Home = () => {
   const { board, timer, gameWin, gameOver, onClick, onRightClick, clickCount, flagCount } =
     useGame();
 
-  const { formatFlagCount } = useIndex();
-
-  const { formatTime } = useTimes();
+  const { formatFlagCount, formatTime } = useIndex();
 
   return (
     <div className={styles.container}>

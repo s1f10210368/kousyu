@@ -1,6 +1,18 @@
 import { useState } from 'react';
 
 const useIndex = () => {
+  // const initialUserInput = [
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // ];
+
   const [userInput, setUserInput] = useState<(0 | 1 | 2 | 3)[][]>([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -15,7 +27,8 @@ const useIndex = () => {
 
   // 0 -> ボムなし
   // 1 -> ボム有
-  const [bombMap, setBombMap] = useState([
+
+  const initialBomMap = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -25,7 +38,16 @@ const useIndex = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
+  ];
+
+  const [bombMap, setBombMap] = useState(initialBomMap);
+
+  // -1 -> 石
+  // 0 -> 画像なしセル
+  // 1~8 -> 数字セル
+  // 9 -> 石＋はてな
+  // 10 -> 石＋旗
+  // 11 -> ボムセル
 
   const board = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -57,6 +79,15 @@ const useIndex = () => {
     return count.toString().padStart(3, '0');
   };
 
+  //時間を３桁に調整する
+  const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    const formattedMinutes = minutes.toString().padStart(1, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    return `${formattedMinutes}${formattedSeconds}`;
+  };
+
   return {
     userInput,
     bombMap,
@@ -65,6 +96,7 @@ const useIndex = () => {
     board,
     directions,
     formatFlagCount,
+    formatTime,
   };
 };
 export { useIndex };
