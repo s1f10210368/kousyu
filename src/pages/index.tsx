@@ -33,6 +33,7 @@ const Home = () => {
             <div>{formatTime(timer)}</div>
           </div>
         </div>
+        {/* 明日は以下を解説 */}
         {/* マインスイーパーを表示 */}
         <div className={styles.board}>
           {board.map((row, x) =>
@@ -55,6 +56,7 @@ const Home = () => {
             ))
           )}
         </div>
+        {/* ここまで */}
       </div>
       {/* ログを表示 */}
       <div className={styles.rilog}>
