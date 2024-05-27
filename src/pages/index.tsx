@@ -1,6 +1,6 @@
 import { useGame } from '../hooks/useGame';
 import { useIndex } from '../hooks/useIndex';
-import { useTimer } from '../hooks/useTimer';
+// import { useTimer } from '../hooks/useTimer';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -17,7 +17,7 @@ const Home = () => {
   } = useGame();
   const { formatFlagCount, formatTime } = useIndex();
 
-  const { timer } = useTimer(userInput, bombMap);
+  // const { timer } = useTimer(userInput, bombMap);
   return (
     <div className={styles.container}>
       <div className={styles.center}>
@@ -29,9 +29,7 @@ const Home = () => {
           {gameOver && <div className={styles.betweensad} />}
           {gameWin && <div className={styles.betweenwin} />}
           {/* タイマー表示 */}
-          <div className={styles.timelog}>
-            <div>{formatTime(timer)}</div>
-          </div>
+          <div className={styles.timelog}>{/*<div>{formatTime(timer)}</div>*/}</div>
         </div>
         {/* 明日は以下を解説 */}
         {/* マインスイーパーを表示 */}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 const useIndex = () => {
+  // こっちが爆弾置かない方の盤面
   const effortUserInputs = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -21,7 +22,10 @@ const useIndex = () => {
 
   // 0 -> ボムなし
   // 1 -> ボム有
+  // 2 -> ?
+  // 3 -> 旗
 
+  // こっちが爆弾を置く方の盤面
   const initialBomMap = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -72,7 +76,7 @@ const useIndex = () => {
   const formatFlagCount = (count: number): string => {
     return count.toString().padStart(3, '0');
   };
-
+  /*
   //時間を３桁に調整する
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
@@ -81,7 +85,7 @@ const useIndex = () => {
     const formattedSeconds = seconds.toString().padStart(2, '0');
     return `${formattedMinutes}${formattedSeconds}`;
   };
-
+*/
   return {
     userInput,
     bombMap,
@@ -90,7 +94,7 @@ const useIndex = () => {
     board,
     directions,
     formatFlagCount,
-    formatTime,
+    // formatTime,
   };
 };
 export { useIndex };
